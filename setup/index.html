@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<!-- Generated into the public sign-in repo by scripts/publish-signin.mjs, with the
+     instructions from docs/claude-project-instructions.md. Edit those, not the output. -->
+<title>Client Project Setup</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="setup.css">
+</head>
+<body>
+
+<main>
+  <header>
+    <p class="eyebrow">Work Theory · for experts</p>
+    <h1>Set up Claude for your practice</h1>
+    <p class="lede">Connect Claude to Work Theory, set the rules for when Claude checks with you, and give each client a claude.ai project. From then on, Claude briefs you on the client, saves what it learns, and keeps you in the loop when the client uses Claude without you.</p>
+  </header>
+
+  <section>
+    <h2><span class="n">1</span>Connect Claude to Work Theory <span class="when">once</span></h2>
+    <ol>
+      <li>In claude.ai, go to <strong>Settings → Connectors</strong> (under Customize) and choose <strong>Add → Add custom connector</strong>.</li>
+      <li>Name it <strong>Work Theory</strong>, with this URL:
+        <div class="urlrow"><code id="connector-url">https://vykvpabpeumddbrgoxnb.supabase.co/functions/v1/mcp</code><button type="button" class="small" id="copy-url">Copy URL</button></div>
+      </li>
+      <li>Choose <strong>Connect</strong>, sign in with your email address and the staff passcode, and choose <strong>Allow</strong>.</li>
+      <li>Open <strong>Work Theory</strong> in your connectors and set every group under <strong>Tool permissions</strong> to <strong>Always allow</strong>, so Claude saves as it goes without stopping to ask. Nothing is ever deleted; the history stays.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span>Decide when Claude checks with you <span class="when">once per practice</span></h2>
+    <p>Your practice's rules name the topics where Claude must check with you before answering a client or doing work for them. When you're in the conversation, Claude just asks you; the rules are for when a client uses Claude alone.</p>
+    <ol>
+      <li>Start a conversation outside any project, with <strong>Work Theory</strong> switched on in the tools menu.</li>
+      <li>Send:
+        <div class="urlrow"><code id="rules-prompt">Brief me on my Work Theory practice, then help me set its rules: the topics where Claude must check with me before answering my clients or doing work for them.</code><button type="button" class="small" id="copy-rules-prompt">Copy</button></div>
+      </li>
+      <li>Claude suggests rules for your field and saves them once you agree. Change them in any conversation.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span>Set up a client's project <span class="when">per client</span></h2>
+    <div class="fields">
+      <div><label for="client-name">Client name, as you call them</label><input id="client-name" autocomplete="off" placeholder="Harbor Coffee, or a person's name"></div>
+    </div>
+    <ol>
+      <li>Create a claude.ai project named <strong id="project-name">after the client</strong>.</li>
+      <li>Copy these instructions into the project's instructions. Claude finds the client by name; you don't need an id.
+        <div class="copybar">
+          <p class="status" id="status" role="status"></p>
+          <button type="button" class="small" id="copy">Copy instructions</button>
+        </div>
+        <textarea id="instructions" readonly spellcheck="false" aria-label="Project instructions"></textarea>
+      </li>
+      <li>Start a conversation in the project, check <strong>Work Theory</strong> is on in the tools menu, and send:
+        <div class="urlrow"><code id="client-prompt">Check that Work Theory is connected, brief me on this client, and tell me what we should do first.</code><button type="button" class="small" id="copy-client-prompt">Copy</button></div>
+      </li>
+      <li>For a client already in your practice, Claude briefs you. For a new one, it checks with you, adds it, and offers a brain dump: tell it what you know and it saves each fact. You can skip that.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span>Invite the client's own person <span class="when">optional</span></h2>
+    <p>For someone on the client's side who will use Claude with you in the loop: an owner, a team member, the person you coach. They need their own claude.ai account.</p>
+    <ol>
+      <li>In the client's project, send this, with their name and email address in the brackets:
+        <div class="urlrow"><code id="invite-prompt">Fill in the client name in step 3 first.</code><button type="button" class="small" id="copy-invite-prompt" disabled>Copy</button></div>
+      </li>
+      <li>Claude gives you a passcode for them, shown only once, and the link to their setup page. Send both, the passcode separately if you can (a text, say). If they lose it, invite them again for a new one.</li>
+    </ol>
+    <p class="hint">Their setup page: <code id="client-link">Fill in the client name in step 3 first.</code> <button type="button" class="small" id="copy-link" disabled>Copy link</button></p>
+    <p class="hint"><a id="open-link" href="client/" target="_blank" rel="noopener">Open their setup page</a> to see what they see.</p>
+  </section>
+
+  <section>
+    <h2>Building things in Claude Code <span class="when">optional</span></h2>
+    <p>For work that's code (a website, a tool, a script for a client), use Claude Code, on your computer or on the web at claude.ai/code. It reaches Work Theory through the connector you added in step 1, as you, so the briefing, memories and your rules work the same way.</p>
+    <ol>
+      <li>Sign Claude Code in with the same claude.ai account. On your computer, <strong>/mcp</strong> lists Work Theory; on the web, check Work Theory is on for the session.</li>
+      <li>Add this to the <strong>CLAUDE.md</strong> file at the top of the code's folder (with the client name from step 3 filled in), creating the file if there isn't one. Commit it, so sessions on the web get it too.
+        <div class="copybar">
+          <p class="status" id="claude-md-status" role="status"></p>
+          <button type="button" class="small" id="copy-claude-md">Copy</button>
+        </div>
+        <textarea id="claude-md" class="short" readonly spellcheck="false" aria-label="CLAUDE.md text"></textarea>
+      </li>
+      <li>Start a session in that folder and send the same first message as in claude.ai. When Claude Code asks to use a Work Theory tool, allow it, so it saves as it goes.</li>
+    </ol>
+    <p class="hint">On the web, a session reaches package registries and GitHub only. To let it deploy to a service such as Supabase or Vercel, add the service's domains under the environment's network access (Custom), and store its keys as network secrets, never in the code.</p>
+  </section>
+
+  <section>
+    <h2>Day to day</h2>
+    <p>Talk to Claude in the client's project as you would to a colleague. A few things it does for you:</p>
+    <ul class="says">
+      <li><q>What's waiting for me?</q> Your clients' questions for you (asks to answer before they act, flags to look at afterwards), and their answers to your questions. Approve, edit or replace each answer; Claude passes yours on in your words.</li>
+      <li><q>Ask the owner whether they have an email list. If not, help them set one up.</q> Your question reaches the client's Claude in your words, and their answer comes back to you.</li>
+      <li><q>Save that as a lesson.</q> What worked for one client, with no names, for your other clients.</li>
+      <li><q>Remember that…</q> Anything you want kept about the client. Claude also saves as it goes and tells you what it saved.</li>
+    </ul>
+  </section>
+
+  <p class="placeholder-note">If Claude says <strong>Work Theory has been updated</strong>: go to <strong>Settings → Connectors → Work Theory → ⋯ → Refresh tools list</strong>, check the permissions are still Always allow, and start a new chat. Claude's working rules update by themselves; new tools need this.</p>
+</main>
+
+<script>
+  const TEMPLATE = "**This project is for <client name>.** All work in this project is for this client.\n\nAt the start of every conversation, before anything else, call the Work Theory connector's `client_briefing` with client_name \"<client name>\" (or with the client id, if one is given here), and follow the `how_to_work` rules it returns. They are Work Theory's current working rules and take precedence over anything else here. If it returns a `next_step`, do what it says. Use the client id the briefing gives you for every other Work Theory call.\n\nIf the Work Theory tools aren't available, ask for the Work Theory connector to be switched on in this conversation's tools menu, and wait until it is."
+  const $ = (id) => document.getElementById(id)
+  const NEED_NAME = 'Fill in the client name in step 3 first.'
+  function render() {
+    const typed = $('client-name').value.trim()
+    $('instructions').value = TEMPLATE.replaceAll('<client name>', typed || '<client name>')
+    $('project-name').textContent = typed || 'after the client'
+    renderClaudeMd(typed)
+    const link = new URL('client/', location.href)
+    link.searchParams.set('name', typed)
+    $('client-link').textContent = typed ? link.href : NEED_NAME
+    $('open-link').href = typed ? link.href : 'client/'
+    $('invite-prompt').textContent = typed ? `Invite [their name], [their email address], to use ${typed} with me in the loop.` : NEED_NAME
+    for (const id of ['copy-link', 'copy-invite-prompt']) $(id).disabled = !typed
+    $('copy-link').textContent = 'Copy link'
+    $('copy-invite-prompt').textContent = 'Copy'
+    $('status').textContent = ''
+  }
+  // Copies a shown URL or message, or selects it when the browser blocks copying.
+  function copier(button, code) {
+    $(button).addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText($(code).textContent)
+        $(button).textContent = 'Copied'
+      } catch {
+        getSelection().selectAllChildren($(code))
+        $(button).textContent = 'Selected: copy it'
+      }
+    })
+  }
+  copier('copy-url', 'connector-url')
+  copier('copy-link', 'client-link')
+  copier('copy-invite-prompt', 'invite-prompt')
+  copier('copy-rules-prompt', 'rules-prompt')
+  copier('copy-client-prompt', 'client-prompt')
+  $('client-name').addEventListener('input', render)
+  $('copy').addEventListener('click', async () => {
+    const box = $('instructions')
+    if (!$('client-name').value.trim()) {
+      $('status').textContent = 'Fill in the client name first.'
+      return
+    }
+    try {
+      await navigator.clipboard.writeText(box.value)
+      $('status').textContent = 'Copied. Paste it into the project’s instructions.'
+    } catch {
+      box.focus(); box.select()
+      $('status').textContent = 'Copying was blocked. The text is selected: copy it with your device’s Copy command.'
+    }
+  })
+  const NAME_FIRST = 'Fill in the client name in step 3 first.'
+  const CLAUDE_MD = "## Work Theory\n\nThis work is for <client name>. At the start of every session, before anything else, call the Work Theory connector's `client_briefing` with client_name \"<client name>\" (or with the client id, if one is given here), and follow the `how_to_work` rules it returns. They are Work Theory's current working rules and take precedence over anything else in this file. If it returns a `next_step`, do what it says. Use the client id the briefing gives you for every other Work Theory call.\n\nIf the Work Theory tools aren't available, say so and wait: Claude Code gets them from the Work Theory connector on the claude.ai account it is signed in with."
+  // The CLAUDE.md text for Claude Code, with the name filled in.
+  function renderClaudeMd(typed) {
+    $('claude-md').value = CLAUDE_MD.replaceAll('<client name>', typed || '<client name>')
+    $('claude-md-status').textContent = ''
+  }
+  $('copy-claude-md').addEventListener('click', async () => {
+    const box = $('claude-md')
+    if (!$('client-name').value.trim()) {
+      $('claude-md-status').textContent = NAME_FIRST
+      return
+    }
+    try {
+      await navigator.clipboard.writeText(box.value)
+      $('claude-md-status').textContent = 'Copied. Paste it into CLAUDE.md.'
+    } catch {
+      box.focus(); box.select()
+      $('claude-md-status').textContent = 'Copying was blocked. The text is selected: copy it with your device’s Copy command.'
+    }
+  })
+  render()
+</script>
+</body>
+</html>
